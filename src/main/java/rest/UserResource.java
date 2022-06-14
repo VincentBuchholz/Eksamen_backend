@@ -3,7 +3,8 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.TenantDTO;
-import facades.RentalFacade;
+
+import errorhandling.UsernameTakenException;
 import facades.UserFacade;
 import utils.EMF_Creator;
 
@@ -25,7 +26,7 @@ public class UserResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed("admin")
-    public Response createUser(String content) {
+    public Response createUser(String content) throws UsernameTakenException {
         TenantDTO tenantDTO = GSON.fromJson(content, TenantDTO.class);
         System.out.println(tenantDTO);
         TenantDTO newTenantDTO = FACADE.createUser(tenantDTO);

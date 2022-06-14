@@ -5,12 +5,14 @@ import entities.House;
 import entities.Rental;
 import entities.Tenant;
 import entities.User;
+import errorhandling.UsernameTakenException;
 import org.junit.jupiter.api.*;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import static facades.UserFacade.usernameTaken;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserFacadeTest {
@@ -97,7 +99,7 @@ class UserFacadeTest {
 
 
     @Test
-    void CreateUserTest(){
+    void CreateUserTest() throws UsernameTakenException {
         System.out.println("create user test");
         TenantDTO tenantToCreate = new TenantDTO("Testname","22222222","testJob","testusername","testpass");
         assertNotNull(facade.createUser(tenantToCreate).getId());
@@ -114,5 +116,12 @@ class UserFacadeTest {
     void getTenatsByRentalIDTest(){
         System.out.println("get tenants by rental ID");
         assertEquals(2,facade.getTenantsByRentalID(rental3.getId()).size());
+    }
+
+    @Test
+    void userNameIsTakenTest(){
+        System.out.println("userName is taken test!");
+        assertTrue(usernameTaken(user1.getUserName()));
+        assertFalse(usernameTaken("notTaken"));
     }
 }

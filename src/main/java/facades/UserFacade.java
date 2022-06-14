@@ -6,11 +6,12 @@ import entities.Tenant;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import errorhandling.UsernameTakenException;
 import security.errorhandling.AuthenticationException;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -55,8 +56,13 @@ public class UserFacade {
     }
 
 
-    public TenantDTO createUser(TenantDTO tenant) {
+    public TenantDTO createUser(TenantDTO tenant) throws UsernameTakenException {
         EntityManager em = emf.createEntityManager();
+
+        if (usernameTaken(tenant.getUsername())) {
+            throw new UsernameTakenException("Username is taken");
+        }
+
         User user = new User(tenant.getUsername(),tenant.getPassword());
         Role userRole = em.find(Role.class, "user");
         user.setRole(userRole);
@@ -94,5 +100,21 @@ public class UserFacade {
         } finally {
             em.close();
         }
+    }
+
+     static boolean usernameTaken(String username) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<User> query = em.createQuery("SELECT u from User u where u.userName =:username", User.class);
+            query.setParameter("username", username);
+            try {
+                User userFound = query.getSingleResult();
+            } catch (NoResultException e) {
+                return false;
+            }
+        } finally {
+            em.close();
+        }
+        return true;
     }
 }
