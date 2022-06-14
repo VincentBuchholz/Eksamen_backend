@@ -54,15 +54,15 @@ public class RentalFacade {
         }
     }
 
-    public List<HouseDTO> getAllHouses() {
-        EntityManager em = getEntityManager();
-
-        try {
-            TypedQuery<HouseDTO> query = em.createQuery("SELECT new dtos.HouseDTO(h) FROM House h", HouseDTO.class);
-            List<HouseDTO> houseDTOs = query.getResultList();
-            return houseDTOs;
-        } finally {
-            em.close();
-        }
-    }
+//    public List<HouseDTO> getAllHouses() {
+//        EntityManager em = getEntityManager();
+//
+//        try {
+//            TypedQuery<HouseDTO> query = em.createQuery("SELECT new dtos.HouseDTO(h) FROM House h", HouseDTO.class);
+//            List<HouseDTO> houseDTOs = query.getResultList();
+//            return houseDTOs;
+//        } finally {
+//            em.close();
+//        }
+//    }
 }

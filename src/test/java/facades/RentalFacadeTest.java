@@ -112,9 +112,9 @@ class RentalFacadeTest {
         assertEquals(houseDTO,facade.getHouseByRentalID(rental1.getId()));
     }
 
-    @Test
-    void getAllHousesTest(){
-        assertEquals(2,facade.getAllHouses().size());
-    }
+//    @Test
+//    void getAllHousesTest(){
+//        assertEquals(2,facade.getAllHouses().size());
+//    }
 
 }

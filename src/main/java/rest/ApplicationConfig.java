@@ -1,5 +1,7 @@
 package rest;
 
+import facades.HouseFacade;
+
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
@@ -33,6 +35,7 @@ public class ApplicationConfig extends Application {
         resources.add(security.errorhandling.NotAuthorizedExceptionMapper.class);
         resources.add(RentalResource.class);
         resources.add(UserResource.class);
+        resources.add(HouseResource.class);
     }
     
 }
