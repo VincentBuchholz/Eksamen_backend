@@ -28,6 +28,7 @@ import java.util.List;
 
     @GET
     @Path("/rentals/{userID}")
+    @RolesAllowed("user")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getRentalsByUserID(@PathParam("userID") int userID) {
         List<RentalDTO> rentalDTOS = FACADE.getRentalsByUserID(userID);
@@ -36,6 +37,7 @@ import java.util.List;
 
     @GET
     @Path("/house/{rentalID}")
+    @RolesAllowed({"admin","user"})
     @Produces({MediaType.APPLICATION_JSON})
     public Response getHouseByRentalID(@PathParam("rentalID") int rentalID) {
         HouseDTO houseDTO = FACADE.getHouseByRentalID(rentalID);
@@ -44,6 +46,7 @@ import java.util.List;
 
     @GET
     @Path("/all")
+    @RolesAllowed("admin")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllRentals() {
         List<RentalDTO> rentalDTOS = FACADE.getAllRentals();
@@ -53,6 +56,7 @@ import java.util.List;
     @GET
     @Path("/{rentalID}")
     @Produces({MediaType.APPLICATION_JSON})
+    @RolesAllowed({"admin","user"})
     public Response getAllRentals(@PathParam("rentalID") int rentalID) {
         RentalDTO rentalDTO = FACADE.getRentalByID(rentalID);
         return Response.ok().entity(GSON.toJson(rentalDTO)).build();

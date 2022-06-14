@@ -1,5 +1,6 @@
 package rest;
 
+import entities.House;
 import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -8,9 +9,11 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
@@ -18,7 +21,7 @@ import java.net.URI;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 
-class RestTest {
+class HouseEndpointTest {
 
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
@@ -27,9 +30,33 @@ class RestTest {
     private static HttpServer httpServer;
     private static EntityManagerFactory emf;
 
+    House house1;
+    House house2;
+
     static HttpServer startServer() {
         ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
         return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
+    }
+
+    @BeforeEach
+    public void setUp() {
+        EntityManager em = emf.createEntityManager();
+        house1 = new House("testAddress1","testCity1",1,"img");
+        house2 = new House("testAddress2","testCity2",1,"img");
+
+        em.getTransaction().begin();
+
+        em.createNamedQuery("House.deleteAllRows").executeUpdate();
+        em.getTransaction().commit();
+
+        try{
+            em.getTransaction().begin();
+            em.persist(house1);
+            em.persist(house2);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 
     @BeforeAll
@@ -53,7 +80,7 @@ class RestTest {
         httpServer.shutdownNow();
     }
     @Test
-    void testTest(){
-        System.out.println("test");
+    void GetAllHousesTest(){
+
     }
 }
