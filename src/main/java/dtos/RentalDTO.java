@@ -4,6 +4,7 @@ import entities.Rental;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RentalDTO {
     private int id;
@@ -112,5 +113,18 @@ public class RentalDTO {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RentalDTO rentalDTO = (RentalDTO) o;
+        return id == rentalDTO.id && Double.compare(rentalDTO.price, price) == 0 && Double.compare(rentalDTO.deposit, deposit) == 0 && Objects.equals(start, rentalDTO.start) && Objects.equals(end, rentalDTO.end) && Objects.equals(contact, rentalDTO.contact);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, start, end, price, deposit, contact);
     }
 }

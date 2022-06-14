@@ -57,7 +57,7 @@ import java.util.List;
     @Path("/{rentalID}")
     @Produces({MediaType.APPLICATION_JSON})
     @RolesAllowed({"admin","user"})
-    public Response getAllRentals(@PathParam("rentalID") int rentalID) {
+    public Response getRentalByID(@PathParam("rentalID") int rentalID) {
         RentalDTO rentalDTO = FACADE.getRentalByID(rentalID);
         return Response.ok().entity(GSON.toJson(rentalDTO)).build();
     }
