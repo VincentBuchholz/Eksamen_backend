@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.HouseDTO;
+import dtos.RentalDTO;
 import entities.House;
 import entities.Rental;
 import entities.Tenant;
@@ -112,9 +113,31 @@ class RentalFacadeTest {
         assertEquals(houseDTO,facade.getHouseByRentalID(rental1.getId()));
     }
 
-//    @Test
-//    void getAllHousesTest(){
-//        assertEquals(2,facade.getAllHouses().size());
-//    }
+    @Test
+    void getAllRentalsTest(){
+        System.out.println("get all rentals test!");
+        assertEquals(3,facade.getAllRentals().size());
+    }
+
+    @Test
+    void getRentalByIDTest(){
+        System.out.println("get rental by id test!");
+        assertEquals(new RentalDTO(rental1).getId(),facade.getRentalByID(rental1.getId()).getId());
+    }
+
+    @Test
+    void updateRentalInfoTest(){
+        System.out.println("update rental info test");
+        RentalDTO rentalToUpdate = new RentalDTO(rental1);
+        rentalToUpdate.setContact("test");
+        rentalToUpdate.setDeposit(1000);
+
+        RentalDTO updated = facade.updateRentalInfo(rentalToUpdate);
+
+        assertEquals(rentalToUpdate.getContact(), updated.getContact());
+        assertEquals(rentalToUpdate.getDeposit(), updated.getDeposit());
+        assertEquals(rentalToUpdate.getId(), updated.getId());
+
+    }
 
 }

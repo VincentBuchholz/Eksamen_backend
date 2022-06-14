@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.HouseDTO;
+import entities.House;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -31,6 +32,19 @@ public class HouseFacade {
             TypedQuery<HouseDTO> query = em.createQuery("SELECT new dtos.HouseDTO(h) FROM House h", HouseDTO.class);
             List<HouseDTO> houseDTOs = query.getResultList();
             return houseDTOs;
+        } finally {
+            em.close();
+        }
+    }
+
+    public HouseDTO createHouse(HouseDTO houseDTO) {
+        EntityManager em = getEntityManager();
+        House house = new House(houseDTO.getAddress(), houseDTO.getCity(), houseDTO.getRooms());
+        try{
+            em.getTransaction().begin();
+            em.persist(house);
+            em.getTransaction().commit();
+            return new HouseDTO(house);
         } finally {
             em.close();
         }

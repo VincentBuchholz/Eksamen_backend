@@ -7,10 +7,9 @@ import facades.HouseFacade;
 import facades.RentalFacade;
 import utils.EMF_Creator;
 
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -28,6 +27,17 @@ public class HouseResource {
     public Response getAllHouses() {
         List<HouseDTO> houseDTOS = FACADE.getAllHouses();
         return Response.ok().entity(GSON.toJson(houseDTOS)).build();
+    }
+
+    @POST
+    @Path("/create")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response createHouse(String content){
+        HouseDTO houseDTO = GSON.fromJson(content, HouseDTO.class);
+        HouseDTO newHouseDTO = FACADE.createHouse(houseDTO);
+        return Response.ok().entity(GSON.toJson(newHouseDTO)).build();
     }
 
 }

@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -113,5 +114,18 @@ public class Rental {
 
     public void setHouse(House house) {
         this.house = house;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rental rental = (Rental) o;
+        return Double.compare(rental.priceAnnual, priceAnnual) == 0 && Double.compare(rental.deposit, deposit) == 0 && Objects.equals(startDate, rental.startDate) && Objects.equals(endDate, rental.endDate) && Objects.equals(contactPerson, rental.contactPerson);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startDate, endDate, priceAnnual, deposit, contactPerson);
     }
 }

@@ -17,6 +17,12 @@ public class HouseDTO {
         this.rooms = house.getNumberOfRooms();
     }
 
+    public HouseDTO(String address, String city, int rooms) {
+        this.address = address;
+        this.city = city;
+        this.rooms = rooms;
+    }
+
     public int getId() {
         return id;
     }

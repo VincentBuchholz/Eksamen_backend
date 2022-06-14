@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.HouseDTO;
 import entities.House;
 import entities.Rental;
 import entities.Tenant;
@@ -57,6 +58,17 @@ class HouseFacadeTest {
 
     @Test
     void getAllHousesTest(){
+        System.out.println("Get all houses test!");
         assertEquals(2,facade.getAllHouses().size());
     }
+
+    @Test
+    void createHouseTest(){
+        System.out.println("create house test!");
+        HouseDTO houseToCreate = new HouseDTO("test address","testcity",12);
+        HouseDTO houseCreated = facade.createHouse(houseToCreate);
+        assertNotNull(houseCreated.getId());
+    }
+
+
 }

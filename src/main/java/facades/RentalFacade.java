@@ -2,6 +2,7 @@ package facades;
 
 import dtos.HouseDTO;
 import dtos.RentalDTO;
+import entities.Rental;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -54,15 +55,43 @@ public class RentalFacade {
         }
     }
 
-//    public List<HouseDTO> getAllHouses() {
-//        EntityManager em = getEntityManager();
-//
-//        try {
-//            TypedQuery<HouseDTO> query = em.createQuery("SELECT new dtos.HouseDTO(h) FROM House h", HouseDTO.class);
-//            List<HouseDTO> houseDTOs = query.getResultList();
-//            return houseDTOs;
-//        } finally {
-//            em.close();
-//        }
-//    }
+    public List<RentalDTO> getAllRentals() {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            TypedQuery<RentalDTO> query = em.createQuery("SELECT new dtos.RentalDTO(r) FROM Rental r", RentalDTO.class);
+            List<RentalDTO> rentals = query.getResultList();
+            return rentals;
+        } finally {
+            em.close();
+        }
+    }
+
+    public RentalDTO getRentalByID(int rentalID) {
+        EntityManager em = getEntityManager();
+        try{
+            Rental rental = em.find(Rental.class, rentalID);
+            return new RentalDTO(rental);
+        } finally {
+            em.close();
+        }
+    }
+
+    public RentalDTO updateRentalInfo(RentalDTO rentalDTO) {
+        EntityManager em = getEntityManager();
+        Rental rental = em.find(Rental.class,rentalDTO.getId());
+        rental.setContactPerson(rentalDTO.getContact());
+        rental.setStartDate(rentalDTO.getStart());
+        rental.setEndDate(rentalDTO.getEnd());
+        rental.setPriceAnnual(rentalDTO.getPrice());
+        rental.setDeposit(rentalDTO.getDeposit());
+        try{
+            em.getTransaction().begin();
+            em.merge(rental);
+            em.getTransaction().commit();
+            return new RentalDTO(rental);
+        } finally {
+            em.close();
+        }
+    }
 }
