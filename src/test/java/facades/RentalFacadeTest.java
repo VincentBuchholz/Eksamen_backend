@@ -67,11 +67,14 @@ class RentalFacadeTest {
 
         EntityManager em = emf.createEntityManager();
 
-        em.getTransaction().begin();
-        em.createNamedQuery("Tenant.deleteAllRows").executeUpdate();
-        em.createNamedQuery("House.deleteAllRows").executeUpdate();
-        em.createNamedQuery("Rental.deleteAllRows").executeUpdate();
-        em.getTransaction().commit();
+//        em.getTransaction().begin();
+//
+//        em.createNamedQuery("Tenant.deleteAllRows").executeUpdate();
+//        em.createNamedQuery("Role.deleteAllRows").executeUpdate();
+//        em.createNamedQuery("User.deleteAllRows").executeUpdate();
+//        em.createNamedQuery("House.deleteAllRows").executeUpdate();
+//        em.createNamedQuery("Rental.deleteAllRows").executeUpdate();
+//        em.getTransaction().commit();
 
         try{
             em.getTransaction().begin();

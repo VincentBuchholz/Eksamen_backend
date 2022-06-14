@@ -10,6 +10,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 @Table(name = "users")
+@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User")
 public class User implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -30,7 +31,7 @@ public class User implements Serializable {
   @Column(name = "user_pass")
   private String userPass;
 
-  @OneToOne
+  @OneToOne()
   private Tenant tenant;
 
 
@@ -49,6 +50,10 @@ public class User implements Serializable {
     this.userName = userName;
 
     this.userPass = BCrypt.hashpw(userPass,BCrypt.gensalt(12));
+  }
+
+  public void removeTenant(){
+    this.tenant = null;
   }
 
 

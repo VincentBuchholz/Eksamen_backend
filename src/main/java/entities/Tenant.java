@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tenant")
-@NamedQuery(name = "Tenant.deleteAllRows", query = "DELETE from Tenant")
+@NamedQuery(name = "Tenant.deleteAllRows", query = "DELETE from Tenant ")
 public class Tenant {
 
     @Id
@@ -26,11 +26,18 @@ public class Tenant {
     @ManyToMany(mappedBy = "tenants")
     private Set<Rental> rentals = new HashSet<>();
 
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "user_id")
     private User user;
 
     public Tenant() {
+    }
+
+    public void removeUser(User user){
+        this.user = null;
+        if(user.getTenant().equals(this)){
+            user.removeTenant();
+        }
     }
 
     public Tenant(String name, String phone, String job) {
