@@ -6,10 +6,13 @@ import dtos.TenantDTO;
 import entities.House;
 import entities.Rental;
 import entities.Tenant;
+import utils.DateChecker;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,17 +35,17 @@ public class RentalFacade {
 
 
     public List<RentalDTO> getRentalsByUserID(int userID) {
-            EntityManager em = emf.createEntityManager();
+        EntityManager em = emf.createEntityManager();
 
-            try {
-                TypedQuery<RentalDTO> query = em.createQuery("SELECT new dtos.RentalDTO(r) FROM Rental r join Tenant t where t.rentals = r and t.user.id =:userID", RentalDTO.class);
-                query.setParameter("userID",userID);
-                List<RentalDTO> rentals = query.getResultList();
-                return rentals;
-            } finally {
-                em.close();
-            }
+        try {
+            TypedQuery<RentalDTO> query = em.createQuery("SELECT new dtos.RentalDTO(r) FROM Rental r join Tenant t where t.rentals = r and t.user.id =:userID", RentalDTO.class);
+            query.setParameter("userID", userID);
+            List<RentalDTO> rentals = query.getResultList();
+            return rentals;
+        } finally {
+            em.close();
         }
+    }
 
     public HouseDTO getHouseByRentalID(int rentalID) {
         EntityManager em = getEntityManager();
@@ -72,10 +75,10 @@ public class RentalFacade {
 
     public RentalDTO getRentalByID(int rentalID) {
         EntityManager em = getEntityManager();
-        try{
+        try {
             Rental rental = em.find(Rental.class, rentalID);
             RentalDTO rentalDTO = new RentalDTO(rental);
-            for (Tenant tenant: rental.getTenants()) {
+            for (Tenant tenant : rental.getTenants()) {
                 rentalDTO.addTenant(new TenantDTO(tenant));
             }
             return rentalDTO;
@@ -86,13 +89,13 @@ public class RentalFacade {
 
     public RentalDTO updateRentalInfo(RentalDTO rentalDTO) {
         EntityManager em = getEntityManager();
-        Rental rental = em.find(Rental.class,rentalDTO.getId());
+        Rental rental = em.find(Rental.class, rentalDTO.getId());
         rental.setContactPerson(rentalDTO.getContact());
         rental.setStartDate(rentalDTO.getStart());
         rental.setEndDate(rentalDTO.getEnd());
         rental.setPriceAnnual(rentalDTO.getPrice());
         rental.setDeposit(rentalDTO.getDeposit());
-        try{
+        try {
             em.getTransaction().begin();
             em.merge(rental);
             em.getTransaction().commit();
@@ -104,10 +107,10 @@ public class RentalFacade {
 
     public RentalDTO setHouse(int rentalID, int houseID) {
         EntityManager em = getEntityManager();
-        Rental rental = em.find(Rental.class,rentalID);
-        House house = em.find(House.class,houseID);
+        Rental rental = em.find(Rental.class, rentalID);
+        House house = em.find(House.class, houseID);
         house.addRental(rental);
-        try{
+        try {
             em.getTransaction().begin();
             em.merge(house);
             em.getTransaction().commit();
@@ -119,10 +122,10 @@ public class RentalFacade {
 
     public RentalDTO addTenantToRental(int rentalID, int tenantID) {
         EntityManager em = getEntityManager();
-        Rental rental = em.find(Rental.class,rentalID);
-        Tenant tenant = em.find(Tenant.class,tenantID);
+        Rental rental = em.find(Rental.class, rentalID);
+        Tenant tenant = em.find(Tenant.class, tenantID);
         rental.addTenant(tenant);
-        try{
+        try {
             em.getTransaction().begin();
             em.merge(rental);
             em.getTransaction().commit();
@@ -134,10 +137,10 @@ public class RentalFacade {
 
     public RentalDTO removeTenantFromRental(int rentalID, int tenantID) {
         EntityManager em = getEntityManager();
-        Rental rental = em.find(Rental.class,rentalID);
-        Tenant tenant = em.find(Tenant.class,tenantID);
+        Rental rental = em.find(Rental.class, rentalID);
+        Tenant tenant = em.find(Tenant.class, tenantID);
         rental.removeTenant(tenant);
-        try{
+        try {
             em.getTransaction().begin();
             em.merge(rental);
             em.getTransaction().commit();
@@ -149,12 +152,34 @@ public class RentalFacade {
 
     public RentalDTO deleteRental(int rentalID) {
         EntityManager em = getEntityManager();
-        Rental rental = em.find(Rental.class,rentalID);
-        try{
+        Rental rental = em.find(Rental.class, rentalID);
+        try {
             em.getTransaction().begin();
             em.remove(rental);
             em.getTransaction().commit();
             return new RentalDTO(rental);
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<TenantDTO> getCurrentTenantsByHouseID(int houseID) throws ParseException {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            TypedQuery<Rental> query = em.createQuery("SELECT r FROM Rental r where r.house.id=:houseID", Rental.class);
+            query.setParameter("houseID", houseID);
+            List<Rental> rentals = query.getResultList();
+            int currentRentalID = 0;
+            for (Rental rental : rentals) {
+                if (DateChecker.CHECK_DATES(rental.getStartDate(), rental.getEndDate())) {
+                    currentRentalID = rental.getId();
+                }
+            }
+            TypedQuery<TenantDTO> tq = em.createQuery("SELECT new dtos.TenantDTO(t) FROM Tenant t join Rental r where t.rentals = r and r.id=:rentalID", TenantDTO.class);
+            tq.setParameter("rentalID", currentRentalID);
+
+            return tq.getResultList();
         } finally {
             em.close();
         }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.HouseDTO;
 import dtos.RentalDTO;
+import dtos.TenantDTO;
 import entities.Rental;
 import facades.RentalFacade;
 import utils.EMF_Creator;
@@ -13,6 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.text.ParseException;
 import java.util.List;
 
 @Path("/rental")
@@ -101,9 +103,18 @@ import java.util.List;
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed("admin")
-    public Response deleteBoatByID(@PathParam("rentalID") int rentalID) {
+    public Response deleteRentalByID(@PathParam("rentalID") int rentalID) {
         RentalDTO deleted = FACADE.deleteRental(rentalID);
         return Response.ok().entity(GSON.toJson(deleted)).build();
+    }
+
+    @GET
+    @Path("/currenttenants/{houseID}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getCurrentTenants(@PathParam("houseID") int houseID) throws ParseException {
+        List<TenantDTO> tenantDTOs = FACADE.getCurrentTenantsByHouseID(houseID);
+        return Response.ok().entity(GSON.toJson(tenantDTOs)).build();
     }
 
 

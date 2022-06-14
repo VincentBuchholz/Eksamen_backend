@@ -15,6 +15,8 @@ import utils.EMF_Creator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import java.text.ParseException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RentalFacadeTest {
@@ -48,9 +50,9 @@ class RentalFacadeTest {
         tenant1 = new Tenant("John Larsen","+45224422","Håndværker");
         tenant2 = new Tenant("Erik Hansen","+45224422","Developer");
         tenant3 = new Tenant("Sofie Larsen","+45224422","HR");
-        rental1 = new Rental("20/06/2022","20/07/2022",150000,15000,"Lars");
+        rental1 = new Rental("12/06/2022","20/07/2022",150000,15000,"Lars");
         rental2 = new Rental("21/7/2022","21/09/2022",150000,15000,"Lars");
-        rental3 = new Rental("20/08/2022","/10/2022",120000,12000,"Lars");
+        rental3 = new Rental("20/08/2022","20/10/2022",120000,12000,"Lars");
         user1 = new User("user1","test123");
         user2 = new User("user2","test123");
         user3 = new User("user3","test123");
@@ -170,6 +172,12 @@ class RentalFacadeTest {
         assertEquals(2,facade.getAllRentals().size());
     }
 
+    @Test
+    void getCurrentTenantsByHouseIDTest() throws ParseException {
+        System.out.println("get current tenants test!");
+        assertEquals(1, facade.getCurrentTenantsByHouseID(house1.getId()).size());
+        assertEquals(0, facade.getCurrentTenantsByHouseID(house2.getId()).size());
+    }
 
 
 }
