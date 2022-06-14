@@ -2,6 +2,9 @@ package dtos;
 
 import entities.Rental;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RentalDTO {
     private int id;
     private String start;
@@ -10,6 +13,8 @@ public class RentalDTO {
     private double deposit;
     private String contact;
 
+    List<TenantDTO> tenants = new ArrayList<>();
+
     public RentalDTO(Rental rental) {
         this.id = rental.getId();
         this.start = rental.getStartDate();
@@ -17,6 +22,14 @@ public class RentalDTO {
         this.price = rental.getPriceAnnual();
         this.deposit = rental.getDeposit();
         this.contact = rental.getContactPerson();
+    }
+
+    public List<TenantDTO> getTenants() {
+        return tenants;
+    }
+
+    public void addTenant(TenantDTO tenantDTO){
+        this.tenants.add(tenantDTO);
     }
 
     public int getId() {

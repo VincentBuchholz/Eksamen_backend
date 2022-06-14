@@ -40,6 +40,13 @@ public class Tenant {
         }
     }
 
+    public void removeRental(Rental rental){
+        this.rentals.remove(rental);
+        if (rental.getTenants().contains(this)){
+            rental.removeTenant(this);
+        }
+    }
+
     public Tenant(String name, String phone, String job) {
         this.name = name;
         this.phone = phone;

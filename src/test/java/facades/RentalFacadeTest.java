@@ -149,4 +149,20 @@ class RentalFacadeTest {
         assertEquals(house2.getId(),facade.getHouseByRentalID(rental1.getId()).getId());
     }
 
+    @Test
+    void addTenantToRentalTest(){
+        System.out.println("add tenant to rental test");
+        facade.addTenantToRental(rental1.getId(),tenant2.getId());
+        assertEquals(2,facade.getRentalByID(rental1.getId()).getTenants().size());
+    }
+
+    @Test
+    void removeTenantFromRental(){
+        System.out.println("remove tenant from rental test!");
+        facade.removeTenantFromRental(rental3.getId(),tenant3.getId());
+        assertEquals(1,facade.getRentalByID(rental3.getId()).getTenants().size());
+    }
+
+
+
 }

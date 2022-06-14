@@ -56,6 +56,13 @@ public class Rental {
         }
     }
 
+    public void removeTenant(Tenant tenant){
+        this.tenants.remove(tenant);
+        if(tenant.getRentals().contains(this)){
+            tenant.removeRental(this);
+        }
+    }
+
     public Set<Tenant> getTenants() {
         return tenants;
     }

@@ -2,8 +2,10 @@ package facades;
 
 import dtos.HouseDTO;
 import dtos.RentalDTO;
+import dtos.TenantDTO;
 import entities.House;
 import entities.Rental;
+import entities.Tenant;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -72,7 +74,11 @@ public class RentalFacade {
         EntityManager em = getEntityManager();
         try{
             Rental rental = em.find(Rental.class, rentalID);
-            return new RentalDTO(rental);
+            RentalDTO rentalDTO = new RentalDTO(rental);
+            for (Tenant tenant: rental.getTenants()) {
+                rentalDTO.addTenant(new TenantDTO(tenant));
+            }
+            return rentalDTO;
         } finally {
             em.close();
         }
@@ -104,6 +110,36 @@ public class RentalFacade {
         try{
             em.getTransaction().begin();
             em.merge(house);
+            em.getTransaction().commit();
+            return new RentalDTO(rental);
+        } finally {
+            em.close();
+        }
+    }
+
+    public RentalDTO addTenantToRental(int rentalID, int tenantID) {
+        EntityManager em = getEntityManager();
+        Rental rental = em.find(Rental.class,rentalID);
+        Tenant tenant = em.find(Tenant.class,tenantID);
+        rental.addTenant(tenant);
+        try{
+            em.getTransaction().begin();
+            em.merge(rental);
+            em.getTransaction().commit();
+            return new RentalDTO(rental);
+        } finally {
+            em.close();
+        }
+    }
+
+    public RentalDTO removeTenantFromRental(int rentalID, int tenantID) {
+        EntityManager em = getEntityManager();
+        Rental rental = em.find(Rental.class,rentalID);
+        Tenant tenant = em.find(Tenant.class,tenantID);
+        rental.removeTenant(tenant);
+        try{
+            em.getTransaction().begin();
+            em.merge(rental);
             em.getTransaction().commit();
             return new RentalDTO(rental);
         } finally {

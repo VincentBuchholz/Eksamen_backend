@@ -76,6 +76,26 @@ import java.util.List;
         return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
     }
 
+    @PUT
+    @Path("/addtenant/{rentalID}/{tenantID}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response AddTenantToRental(@PathParam("rentalID") int rentalID,@PathParam("tenantID") int tenantID){
+        RentalDTO newRentalDTO = FACADE.addTenantToRental(rentalID,tenantID);
+        return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
+    }
+
+    @PUT
+    @Path("/removetenant/{rentalID}/{tenantID}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response removeTenantFromRental(@PathParam("rentalID") int rentalID,@PathParam("tenantID") int tenantID){
+        RentalDTO newRentalDTO = FACADE.removeTenantFromRental(rentalID,tenantID);
+        return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
+    }
+
 
 
 

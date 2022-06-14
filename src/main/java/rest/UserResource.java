@@ -9,12 +9,10 @@ import utils.EMF_Creator;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/user")
 public class UserResource {
@@ -33,4 +31,24 @@ public class UserResource {
         TenantDTO newTenantDTO = FACADE.createUser(tenantDTO);
         return Response.ok().entity(GSON.toJson(newTenantDTO)).build();
     }
+
+    @GET
+    @Path("/all")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllTenants() {
+        List<TenantDTO> tenants = FACADE.getAllTenants();
+        return Response.ok().entity(GSON.toJson(tenants)).build();
+    }
+    @GET
+    @Path("/{rentalID}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getTenantsByRentalID(@PathParam("rentalID") int rentalID) {
+        List<TenantDTO> tenants = FACADE.getTenantsByRentalID(rentalID);
+        return Response.ok().entity(GSON.toJson(tenants)).build();
+    }
+
+
+
 }
