@@ -30,6 +30,9 @@ public class User implements Serializable {
   @Column(name = "user_pass")
   private String userPass;
 
+  @OneToOne
+  private Tenant tenant;
+
 
   @ManyToOne
   @JoinColumn(name = "role_name")
@@ -79,5 +82,16 @@ public class User implements Serializable {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  public Tenant getTenant() {
+    return tenant;
+  }
+
+  public void setTenant(Tenant tenant) {
+    this.tenant = tenant;
+    if(tenant.getUser() != this){
+      tenant.setUser(this);
+    }
   }
 }
