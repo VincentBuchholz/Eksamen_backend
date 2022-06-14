@@ -117,6 +117,12 @@ class HouseEndpointTest {
     public static void closeTestServer() {
         //Don't forget this, if you called its counterpart in @BeforeAll
         EMF_Creator.endREST_TestWithDB();
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.createNamedQuery("User.deleteAllRows").executeUpdate();
+        em.createNamedQuery("Role.deleteAllRows").executeUpdate();
+        em.createNamedQuery("House.deleteAllRows").executeUpdate();
+        em.getTransaction().commit();
 
         httpServer.shutdownNow();
     }
