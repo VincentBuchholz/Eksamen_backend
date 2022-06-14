@@ -163,6 +163,13 @@ class RentalFacadeTest {
         assertEquals(1,facade.getRentalByID(rental3.getId()).getTenants().size());
     }
 
+    @Test
+    void deleteRentalTest(){
+        System.out.println("Delete rental test");
+        facade.deleteRental(rental3.getId());
+        assertEquals(2,facade.getAllRentals().size());
+    }
+
 
 
 }

@@ -146,4 +146,17 @@ public class RentalFacade {
             em.close();
         }
     }
+
+    public RentalDTO deleteRental(int rentalID) {
+        EntityManager em = getEntityManager();
+        Rental rental = em.find(Rental.class,rentalID);
+        try{
+            em.getTransaction().begin();
+            em.remove(rental);
+            em.getTransaction().commit();
+            return new RentalDTO(rental);
+        } finally {
+            em.close();
+        }
+    }
 }

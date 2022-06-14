@@ -96,6 +96,16 @@ import java.util.List;
         return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
     }
 
+    @DELETE
+    @Path("/delete/{rentalID}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response deleteBoatByID(@PathParam("rentalID") int rentalID) {
+        RentalDTO deleted = FACADE.deleteRental(rentalID);
+        return Response.ok().entity(GSON.toJson(deleted)).build();
+    }
+
 
 
 
