@@ -2,6 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dtos.HouseDTO;
 import dtos.RentalDTO;
 import facades.RentalFacade;
 import utils.EMF_Creator;
@@ -26,9 +27,18 @@ import java.util.List;
     @GET
     @Path("/rentals/{userID}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllPersons(@PathParam("userID") int userID) {
+    public Response getRentalsByUserID(@PathParam("userID") int userID) {
         List<RentalDTO> rentalDTOS = FACADE.getRentalsByUserID(userID);
         return Response.ok().entity(GSON.toJson(rentalDTOS)).build();
     }
+
+    @GET
+    @Path("/house/{rentalID}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getHouseByRentalID(@PathParam("rentalID") int rentalID) {
+        HouseDTO houseDTO = FACADE.getHouseByRentalID(rentalID);
+        return Response.ok().entity(GSON.toJson(houseDTO)).build();
+    }
+
 
     }

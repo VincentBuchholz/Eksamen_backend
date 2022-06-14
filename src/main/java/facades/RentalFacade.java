@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.HouseDTO;
 import dtos.RentalDTO;
 
 import javax.persistence.EntityManager;
@@ -38,4 +39,18 @@ public class RentalFacade {
                 em.close();
             }
         }
+
+    public HouseDTO getHouseByRentalID(int rentalID) {
+        EntityManager em = getEntityManager();
+
+        try {
+            TypedQuery<HouseDTO> query = em.createQuery("SELECT new dtos.HouseDTO(h) FROM House h join Rental r where h.rentals = r and r.id=:rentalID", HouseDTO.class);
+            query.setParameter("rentalID", rentalID);
+            query.setMaxResults(1);
+            HouseDTO houseDTO = query.getSingleResult();
+            return houseDTO;
+        } finally {
+            em.close();
+        }
+    }
 }

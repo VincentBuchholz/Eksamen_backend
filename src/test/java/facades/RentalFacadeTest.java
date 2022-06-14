@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.HouseDTO;
 import entities.House;
 import entities.Rental;
 import entities.Tenant;
@@ -99,6 +100,13 @@ class RentalFacadeTest {
     void getAllRentalsByUserIDTest(){
         System.out.println("Get all rentals by userID test!");
         assertEquals(2,facade.getRentalsByUserID(tenant1.getUser().getId()).size());
+    }
+
+    @Test
+    void getHouseByRentalIDTest(){
+        System.out.println("Get house by rental id test!");
+        HouseDTO houseDTO = new HouseDTO(house1);
+        assertEquals(houseDTO,facade.getHouseByRentalID(rental1.getId()));
     }
 
 }
