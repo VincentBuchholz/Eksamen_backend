@@ -71,24 +71,12 @@ class HouseEndpointTest {
         house2 = new House("testAddress2","testCity2",1,"img");
 
         em.getTransaction().begin();
-        em.createNamedQuery("User.deleteAllRows").executeUpdate();
-        em.createNamedQuery("Role.deleteAllRows").executeUpdate();
+//        em.createNamedQuery("User.deleteAllRows").executeUpdate();
+//        em.createNamedQuery("Role.deleteAllRows").executeUpdate();
         em.createNamedQuery("House.deleteAllRows").executeUpdate();
         em.getTransaction().commit();
 
-        Role userRole = new Role("user");
-        Role adminRole = new Role("admin");
-        User user = new User("user", "test");
-        user.setRole(userRole);
-        User admin = new User("admin", "test");
-        em.getTransaction().begin();
-        admin.setRole(adminRole);
-        em.persist(userRole);
-        em.persist(adminRole);
-        em.persist(user);
-        em.persist(admin);
-        //System.out.println("Saved test data to database");
-        em.getTransaction().commit();
+
 
         try{
             em.getTransaction().begin();
@@ -108,21 +96,30 @@ class HouseEndpointTest {
 
         httpServer = startServer();
         //Setup RestAssured
+
+        EntityManager em = emf.createEntityManager();
         RestAssured.baseURI = SERVER_URL;
         RestAssured.port = SERVER_PORT;
         RestAssured.defaultParser = Parser.JSON;
+        Role userRole = new Role("user");
+        Role adminRole = new Role("admin");
+        User user = new User("user", "test");
+        user.setRole(userRole);
+        User admin = new User("admin", "test");
+        em.getTransaction().begin();
+        admin.setRole(adminRole);
+        em.persist(userRole);
+        em.persist(adminRole);
+        em.persist(user);
+        em.persist(admin);
+        //System.out.println("Saved test data to database");
+        em.getTransaction().commit();
     }
 
     @AfterAll
     public static void closeTestServer() {
         //Don't forget this, if you called its counterpart in @BeforeAll
         EMF_Creator.endREST_TestWithDB();
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.createNamedQuery("User.deleteAllRows").executeUpdate();
-        em.createNamedQuery("Role.deleteAllRows").executeUpdate();
-        em.createNamedQuery("House.deleteAllRows").executeUpdate();
-        em.getTransaction().commit();
 
         httpServer.shutdownNow();
     }
