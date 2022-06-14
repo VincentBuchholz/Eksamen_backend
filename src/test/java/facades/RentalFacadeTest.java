@@ -6,6 +6,7 @@ import entities.House;
 import entities.Rental;
 import entities.Tenant;
 import entities.User;
+import errorhandling.DateFormatException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -186,7 +187,7 @@ class RentalFacadeTest {
     }
 
     @Test
-    void createRentalTest(){
+    void createRentalTest() throws DateFormatException {
         RentalDTO rentalDTO = new RentalDTO("14/06/2023","14/06/2023",150000,1500,"Lars",house1.getId(),tenant1.getId());
         assertNotNull(facade.createRental(rentalDTO).getId());
     }

@@ -6,6 +6,7 @@ import dtos.HouseDTO;
 import dtos.RentalDTO;
 import dtos.TenantDTO;
 import entities.Rental;
+import errorhandling.DateFormatException;
 import facades.RentalFacade;
 import utils.EMF_Creator;
 
@@ -131,7 +132,7 @@ import java.util.List;
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed("admin")
-    public Response createRental(String content){
+    public Response createRental(String content) throws DateFormatException {
         RentalDTO rentalDTO = GSON.fromJson(content, RentalDTO.class);
         RentalDTO newRentalDTO = FACADE.createRental(rentalDTO);
         return Response.ok().entity(GSON.toJson(newRentalDTO)).build();

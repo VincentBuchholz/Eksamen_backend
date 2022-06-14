@@ -6,6 +6,7 @@ import dtos.TenantDTO;
 import entities.House;
 import entities.Rental;
 import entities.Tenant;
+import errorhandling.DateFormatException;
 import utils.DateChecker;
 
 import javax.persistence.EntityManager;
@@ -198,8 +199,16 @@ public class RentalFacade {
         }
     }
 
-    public RentalDTO createRental(RentalDTO rentalDTO) {
+    public RentalDTO createRental(RentalDTO rentalDTO) throws DateFormatException {
         EntityManager em = getEntityManager();
+        if(!DateChecker.CORRECT_FORMAT(rentalDTO.getStart())){
+            throw new DateFormatException("Date format must be dd/MM/yyyy");
+        }
+
+        if(!DateChecker.CORRECT_FORMAT(rentalDTO.getEnd())){
+            throw new DateFormatException("Date format must be dd/MM/yyyy");
+        }
+
         Rental newRental = new Rental(rentalDTO.getStart(), rentalDTO.getEnd(), rentalDTO.getPrice(), rentalDTO.getDeposit(), rentalDTO.getContact());
 
         try{
