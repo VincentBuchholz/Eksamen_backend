@@ -126,6 +126,17 @@ import java.util.List;
         return Response.ok().entity(GSON.toJson(rentalDTOS)).build();
     }
 
+    @POST
+    @Path("/create")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response createRental(String content){
+        RentalDTO rentalDTO = GSON.fromJson(content, RentalDTO.class);
+        RentalDTO newRentalDTO = FACADE.createRental(rentalDTO);
+        return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
+    }
+
 
 
 

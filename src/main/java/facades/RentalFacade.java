@@ -197,4 +197,22 @@ public class RentalFacade {
             em.close();
         }
     }
+
+    public RentalDTO createRental(RentalDTO rentalDTO) {
+        EntityManager em = getEntityManager();
+        Rental newRental = new Rental(rentalDTO.getStart(), rentalDTO.getEnd(), rentalDTO.getPrice(), rentalDTO.getDeposit(), rentalDTO.getContact());
+
+        try{
+            House house = em.find(House.class,rentalDTO.getHouseID());
+            Tenant tenant = em.find(Tenant.class,rentalDTO.getTenantID());
+            newRental.setHouse(house);
+            newRental.addTenant(tenant);
+            em.getTransaction().begin();
+            em.persist(newRental);
+            em.getTransaction().commit();
+            return new RentalDTO(newRental);
+        } finally {
+            em.close();
+        }
+    }
 }

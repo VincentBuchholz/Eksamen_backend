@@ -185,5 +185,11 @@ class RentalFacadeTest {
         assertEquals(2,facade.getRentalsByHouseID(house1.getId()).size());
     }
 
+    @Test
+    void createRentalTest(){
+        RentalDTO rentalDTO = new RentalDTO("14/06/2023","14/06/2023",150000,1500,"Lars",house1.getId(),tenant1.getId());
+        assertNotNull(facade.createRental(rentalDTO).getId());
+    }
+
 
 }
