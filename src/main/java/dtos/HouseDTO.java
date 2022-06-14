@@ -9,18 +9,28 @@ public class HouseDTO {
     private String address;
     private String city;
     private int rooms;
+    private String img;
 
     public HouseDTO(House house) {
         this.id = house.getId();
         this.address = house.getAddress();
         this.city = house.getCity();
         this.rooms = house.getNumberOfRooms();
+        this.img = house.getImage();
     }
 
     public HouseDTO(String address, String city, int rooms) {
         this.address = address;
         this.city = city;
         this.rooms = rooms;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public int getId() {

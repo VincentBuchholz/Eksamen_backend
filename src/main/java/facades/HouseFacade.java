@@ -39,7 +39,7 @@ public class HouseFacade {
 
     public HouseDTO createHouse(HouseDTO houseDTO) {
         EntityManager em = getEntityManager();
-        House house = new House(houseDTO.getAddress(), houseDTO.getCity(), houseDTO.getRooms());
+        House house = new House(houseDTO.getAddress(), houseDTO.getCity(), houseDTO.getRooms(), houseDTO.getImg());
         try{
             em.getTransaction().begin();
             em.persist(house);

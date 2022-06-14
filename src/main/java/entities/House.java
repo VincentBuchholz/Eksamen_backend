@@ -22,16 +22,36 @@ public class House {
     @Column(name = "number_of_rooms")
     private int numberOfRooms;
 
+    @Column(name = "img_url")
+    private String image;
+
     @OneToMany(mappedBy = "house")
     private Set<Rental> rentals = new HashSet<>();
 
     public House() {
     }
 
-    public House(String address, String city, int numberOfRooms) {
+    public House(String address, String city, int numberOfRooms, String image) {
         this.address = address;
         this.city = city;
         this.numberOfRooms = numberOfRooms;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Set<Rental> getRentals() {
+        return rentals;
+    }
+
+    public void setRentals(Set<Rental> rentals) {
+        this.rentals = rentals;
     }
 
     public void addRental(Rental rental){

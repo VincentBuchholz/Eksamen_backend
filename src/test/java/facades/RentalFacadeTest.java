@@ -45,8 +45,8 @@ class RentalFacadeTest {
     @BeforeEach
     void setUp() {
 
-        house1 = new House("Buddingevej 60","Kgs. Lyngby",7);
-        house2 = new House("Agnetevej 10","Holte",5);
+        house1 = new House("Buddingevej 60","Kgs. Lyngby",7,"img_url");
+        house2 = new House("Agnetevej 10","Holte",5,"img_url");
         tenant1 = new Tenant("John Larsen","+45224422","Håndværker");
         tenant2 = new Tenant("Erik Hansen","+45224422","Developer");
         tenant3 = new Tenant("Sofie Larsen","+45224422","HR");

@@ -25,8 +25,8 @@ public class SetupTestUsers {
     User user2;
     User user3;
 
-    house1 = new House("Buddingevej 60","Kgs. Lyngby",7);
-    house2 = new House("Agnetevej 10","Holte",5);
+    house1 = new House("St. antoni 15","Barcelona",7,"https://barcelona-home.com/blog/wp-content/upload/2013/10/villafeat-955x508.jpg");
+    house2 = new House("Montréal road 17 ","Nice",5,"https://www.cvvillas.com/dynamic-images/17000-17999/17358/17358_c=(0,1,2000,1333)_w=1366_h=911_pjpg.jpg?v=55e08f31cac4563c31f48812b4aa4b6017ba78c3");
     tenant1 = new Tenant("John Larsen","+45224422","Håndværker");
     tenant2 = new Tenant("Erik Hansen","+45224422","Developer");
     tenant3 = new Tenant("Sofie Larsen","+45224422","HR");
