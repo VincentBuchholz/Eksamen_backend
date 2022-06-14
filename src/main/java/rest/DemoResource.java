@@ -15,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import utils.EMF_Creator;
+import utils.Populator;
 
 /**
  * @author lam@cphbusiness.dk
@@ -68,4 +69,13 @@ public class DemoResource {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
     }
+
+    @GET
+    @Path("/populate")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String populate() {
+        Populator.POPULATE();
+        return "{\"msg\":\"Populated\"}";
+    }
+
 }

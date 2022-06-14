@@ -32,7 +32,7 @@ public class SetupTestUsers {
     tenant3 = new Tenant("Sofie Larsen","+45224422","HR");
     rental1 = new Rental("20/06/2022","20/07/2022",150000,15000,"Lars");
     rental2 = new Rental("21/7/2022","21/09/2022",150000,15000,"Lars");
-    rental3 = new Rental("20/08/2022","/10/2022",120000,12000,"Lars");
+    rental3 = new Rental("20/08/2022","20/10/2022",120000,12000,"Lars");
     user1 = new User("user1","test123");
     user2 = new User("user2","test123");
     user3 = new User("user3","test123");
