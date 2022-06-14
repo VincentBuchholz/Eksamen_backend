@@ -140,4 +140,13 @@ class RentalFacadeTest {
 
     }
 
+    @Test
+    void setHouseTest(){
+        System.out.println("set house for rental test");
+
+        facade.setHouse(rental1.getId(),house2.getId());
+
+        assertEquals(house2.getId(),facade.getHouseByRentalID(rental1.getId()).getId());
+    }
+
 }

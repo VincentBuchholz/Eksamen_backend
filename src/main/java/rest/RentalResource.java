@@ -66,6 +66,17 @@ import java.util.List;
         return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
     }
 
+    @PUT
+    @Path("/changehouse/{rentalID}/{houseID}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response setHouse(@PathParam("rentalID") int rentalID,@PathParam("houseID") int houseID){
+        RentalDTO newRentalDTO = FACADE.setHouse(rentalID,houseID);
+        return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
+    }
+
+
 
 
     }
