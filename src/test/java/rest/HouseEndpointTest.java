@@ -71,9 +71,23 @@ class HouseEndpointTest {
         house2 = new House("testAddress2","testCity2",1,"img");
 
         em.getTransaction().begin();
-//        em.createNamedQuery("User.deleteAllRows").executeUpdate();
-//        em.createNamedQuery("Role.deleteAllRows").executeUpdate();
+        em.createNamedQuery("User.deleteAllRows").executeUpdate();
+        em.createNamedQuery("Role.deleteAllRows").executeUpdate();
         em.createNamedQuery("House.deleteAllRows").executeUpdate();
+        em.getTransaction().commit();
+
+        Role userRole = new Role("user");
+        Role adminRole = new Role("admin");
+        User user = new User("user", "test");
+        user.setRole(userRole);
+        User admin = new User("admin", "test");
+        em.getTransaction().begin();
+        admin.setRole(adminRole);
+        em.persist(userRole);
+        em.persist(adminRole);
+        em.persist(user);
+        em.persist(admin);
+        //System.out.println("Saved test data to database");
         em.getTransaction().commit();
 
 
@@ -101,19 +115,7 @@ class HouseEndpointTest {
         RestAssured.baseURI = SERVER_URL;
         RestAssured.port = SERVER_PORT;
         RestAssured.defaultParser = Parser.JSON;
-        Role userRole = new Role("user");
-        Role adminRole = new Role("admin");
-        User user = new User("user", "test");
-        user.setRole(userRole);
-        User admin = new User("admin", "test");
-        em.getTransaction().begin();
-        admin.setRole(adminRole);
-        em.persist(userRole);
-        em.persist(adminRole);
-        em.persist(user);
-        em.persist(admin);
-        //System.out.println("Saved test data to database");
-        em.getTransaction().commit();
+
     }
 
     @AfterAll
