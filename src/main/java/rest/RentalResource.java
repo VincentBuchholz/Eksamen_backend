@@ -40,5 +40,13 @@ import java.util.List;
         return Response.ok().entity(GSON.toJson(houseDTO)).build();
     }
 
+    @GET
+    @Path("/allhouses")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllHouses() {
+        List<HouseDTO> houseDTOS = FACADE.getAllHouses();
+        return Response.ok().entity(GSON.toJson(houseDTOS)).build();
+    }
+
 
     }

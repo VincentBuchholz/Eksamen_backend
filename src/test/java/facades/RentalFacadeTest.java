@@ -67,14 +67,14 @@ class RentalFacadeTest {
 
         EntityManager em = emf.createEntityManager();
 
-//        em.getTransaction().begin();
-//
+        em.getTransaction().begin();
+
 //        em.createNamedQuery("Tenant.deleteAllRows").executeUpdate();
 //        em.createNamedQuery("Role.deleteAllRows").executeUpdate();
 //        em.createNamedQuery("User.deleteAllRows").executeUpdate();
-//        em.createNamedQuery("House.deleteAllRows").executeUpdate();
-//        em.createNamedQuery("Rental.deleteAllRows").executeUpdate();
-//        em.getTransaction().commit();
+        em.createNamedQuery("Rental.deleteAllRows").executeUpdate();
+        em.createNamedQuery("House.deleteAllRows").executeUpdate();
+        em.getTransaction().commit();
 
         try{
             em.getTransaction().begin();
@@ -110,6 +110,11 @@ class RentalFacadeTest {
         System.out.println("Get house by rental id test!");
         HouseDTO houseDTO = new HouseDTO(house1);
         assertEquals(houseDTO,facade.getHouseByRentalID(rental1.getId()));
+    }
+
+    @Test
+    void getAllHousesTest(){
+        assertEquals(2,facade.getAllHouses().size());
     }
 
 }
