@@ -73,6 +73,7 @@ class HouseEndpointTest {
         em.getTransaction().begin();
         em.createNamedQuery("User.deleteAllRows").executeUpdate();
         em.createNamedQuery("Role.deleteAllRows").executeUpdate();
+        em.createNamedQuery("Rental.deleteAllRows").executeUpdate();
         em.createNamedQuery("House.deleteAllRows").executeUpdate();
         em.getTransaction().commit();
 
