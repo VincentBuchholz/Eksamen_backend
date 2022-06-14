@@ -1,3 +1,15 @@
 POST http://localhost:8080/devops_starter_war_exploded/api/login
 
 {"username": "user","password": "test12113"}
+
+
+###
+POST http://localhost:8080/exam_war_exploded/api/user
+
+{
+        "name" = "testName",
+        "job" = "testJob",
+        "phone" = "22222222",
+        "username" = "user4",
+        "password" = "test123"
+}
