@@ -70,5 +70,11 @@ class HouseFacadeTest {
         assertNotNull(houseCreated.getId());
     }
 
+    @Test
+    void getHouseByIDTest(){
+        System.out.println("Get house by ID test!");
+        assertEquals(new HouseDTO(house1),facade.getHouseByID(house1.getId()));
+    }
+
 
 }

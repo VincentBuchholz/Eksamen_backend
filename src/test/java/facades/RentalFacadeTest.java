@@ -179,5 +179,11 @@ class RentalFacadeTest {
         assertEquals(0, facade.getCurrentTenantsByHouseID(house2.getId()).size());
     }
 
+    @Test
+    void getRentalsByHouseIDTest(){
+        System.out.println("get rentals by houseID test!");
+        assertEquals(2,facade.getRentalsByHouseID(house1.getId()).size());
+    }
+
 
 }

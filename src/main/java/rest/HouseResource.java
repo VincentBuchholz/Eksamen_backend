@@ -40,4 +40,13 @@ public class HouseResource {
         return Response.ok().entity(GSON.toJson(newHouseDTO)).build();
     }
 
+    @GET
+    @Path("/{houseID}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getHouseByID(@PathParam("houseID") int houseID) {
+        HouseDTO houseDTO = FACADE.getHouseByID(houseID);
+        return Response.ok().entity(GSON.toJson(houseDTO)).build();
+    }
+
 }

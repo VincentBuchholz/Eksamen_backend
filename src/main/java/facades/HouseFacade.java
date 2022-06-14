@@ -49,4 +49,13 @@ public class HouseFacade {
             em.close();
         }
     }
+
+    public HouseDTO getHouseByID(int houseID) {
+        EntityManager em = getEntityManager();
+        try{
+            return new HouseDTO(em.find(House.class,houseID));
+        } finally {
+            em.close();
+        }
+    }
 }

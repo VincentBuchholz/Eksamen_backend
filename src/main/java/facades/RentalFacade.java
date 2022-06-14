@@ -184,4 +184,17 @@ public class RentalFacade {
             em.close();
         }
     }
+
+    public List<RentalDTO> getRentalsByHouseID(int houseID) {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            TypedQuery<RentalDTO> query = em.createQuery("SELECT new dtos.RentalDTO(r) FROM Rental r Where r.house.id=:houseID", RentalDTO.class);
+            query.setParameter("houseID", houseID);
+            List<RentalDTO> rentals = query.getResultList();
+            return rentals;
+        } finally {
+            em.close();
+        }
+    }
 }
